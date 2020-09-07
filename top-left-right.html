@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>circle-progress-demo</title>
+    <style type="text/css">
+    .circle-progress {
+        /* modify these properties in style attribute */
+        --progress-size: 400px;
+        --progress-border: 20px;
+        --progress-percent: 0;
+        --progress-color: green;
+
+        width: var(--progress-size);
+        height: var(--progress-size);
+        margin: 50px auto;
+        position: relative;
+        border: 1px solid #ddd;
+    }
+
+    .circle-progress .circle-progress-left,
+    .circle-progress .circle-progress-right {
+        width: calc(var(--progress-size) / 2);
+        height: var(--progress-size);
+        position: absolute;
+        top: 0;
+        overflow: hidden;
+    }
+
+    .circle-progress .circle-progress-left {
+        left: 0;
+    }
+
+    .circle-progress .circle-progress-right {
+        right: 0;
+    }
+
+    .circle-progress .circle-progress-roller {
+        width: calc(var(--progress-size) - var(--progress-border) * 2);
+        height: calc(var(--progress-size) - var(--progress-border) * 2);
+        border: var(--progress-border) solid transparent;
+        border-radius: 50%;
+        position: absolute;
+        top: 0;
+        transform: rotate(225deg);
+    }
+
+    .circle-progress .circle-progress-left .circle-progress-roller {
+        border-bottom: var(--progress-border) solid var(--progress-color);
+        border-left: var(--progress-border) solid var(--progress-color);
+        left: 0;
+        /* 0% => 225deg 25% => 135deg 50% => 45deg */
+        transform: rotate(calc(225deg - 180deg * (min(var(--progress-percent), 50) / 50)));
+    }
+
+    .circle-progress .circle-progress-right .circle-progress-roller {
+        border-top: var(--progress-border) solid var(--progress-color);
+        border-right: var(--progress-border) solid var(--progress-color);
+        right: 0;
+        /* 0~50% 225deg 75% => 135deg 100% => 45deg */
+        transform: rotate(calc((225deg - 180deg * (max(var(--progress-percent), 50) / 50)) + 180deg));
+    }
+
+    .circle-progress .circle-progress-bg .circle-progress-roller {
+        /* 100% => 45deg */
+        transform: rotate(45deg);
+        border-color: #ddd;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="circle-progress" style="--progress-percent: 60">
+        <!-- bg roller (optional) -->
+        <div class="circle-progress-left circle-progress-bg">
+            <div class="circle-progress-roller"></div>
+        </div>
+        <div class="circle-progress-right circle-progress-bg">
+            <div class="circle-progress-roller"></div>
+        </div>
+        <!-- main roller (required) -->
+        <div class="circle-progress-left">
+            <div class="circle-progress-roller"></div>
+        </div>
+        <div class="circle-progress-right">
+            <div class="circle-progress-roller"></div>
+        </div>
+    </div>
+</body>
+
+</html>
